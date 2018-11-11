@@ -1,0 +1,151 @@
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using std::string;
+
+int choice;
+int enemyhp=100;
+int myhp=100;
+int playagain;
+int potioncount=3;
+int xatkcount=1;
+int xdefcount=1;
+int bagchoice;
+int damagemod;
+int defensemod;
+int bagback = 0;
+int menuback = 0;
+string mymon;
+string enemymon;
+
+int bagoption() {
+	if (bagchoice == 1) {
+		if (potioncount > 0) {
+			myhp = myhp + 20;
+			--potioncount;
+			bagback = 1;
+		}
+		else {
+			bagback = 0;
+			cout << "You are out of potions." << endl;
+		}
+	}
+	else if (bagchoice == 2) {
+		if (xdefcount > 0) {
+			defensemod = 1;
+			--xdefcount;
+			bagback = 1;
+		}
+		else {
+			bagback = 0;
+			cout << "You are out of X Defenses." << endl;
+		}
+	}
+	else if (bagchoice == 3) {
+		if (xatkcount > 0) {
+			damagemod = 1;
+			--xatkcount;
+			bagback = 1;
+		}
+		else {
+			bagback = 0;
+			cout << "You are out of X Attacks." << endl;
+		}
+	}
+	else if (bagchoice == 4) {
+		bagback = 1;
+		menuback = 1;
+	}
+	else {
+		cout << "Invalid response, please enter a number from 1-4." << endl;
+	}
+	return 0;
+}
+
+int bag() {
+	while (bagback == 0) {
+		cout << "Here is your bag. Choose an item." << endl;
+		cout << "1-Potion (" << potioncount << "x)." << endl;
+		cout << "2-X Defense (" << xdefcount << "x)." << endl;
+		cout << "3-X Attack (" << xatkcount << "x)." << endl;
+		cout << "4-Menu" << endl;
+		cin >> bagchoice;
+		while (cin.fail()) {
+			cout << "Invalid option, please enter a number." << endl;
+			cin.clear();
+			cin.ignore(256, '\n');
+			cin >> bagchoice;
+		}
+		bagoption();
+	}
+	bagback = 0;
+	return 0;
+}
+
+int fight() {
+	cout << "Here are your attacks." << endl;
+	return 0;
+}
+
+int swap() {
+	cout << "You cannot swap as you have no other Pokemon." << endl;
+	return 0;
+}
+
+int run() {
+	cout << "You ran from the " << enemymon << endl;
+	return 0;
+}
+
+void optionchecker() {
+	if (choice == 1) {
+		bag();
+	}
+	else if (choice == 2) {
+		fight();
+	}
+	else if (choice == 3) {
+		swap();
+	}
+	else if (choice == 4) {
+		run();
+	}
+	else {
+		cout << "Invalid response, please enter a number from 1-4." << endl;
+	}
+}
+
+int main()
+{
+	cout << "Choose your Pokemon." << endl;
+	getline(cin, mymon);
+	cout << "Choose the enemy pokemon." << endl;
+	getline(cin, enemymon);
+	cout << "A wild " << enemymon << " appeared! " << mymon << ", go!" << endl;
+	while (enemyhp > 0) {
+		while (myhp > 0) {
+			cout << "Your "<< mymon << "'s HP is " << myhp << endl;
+			cout << "The enemy " << enemymon << "'s HP is " << enemyhp << endl;
+			cout << "What will your " << mymon << " do?" << endl;
+			cout << "1-Bag" << endl;
+			cout << "2-Fight" << endl;
+			cout << "3-Switch" << endl;
+			cout << "4-Run" << endl;
+			cin >> choice;
+			while (cin.fail()) {
+				cout << "Invalid option, please enter a number." << endl;
+				cin.clear();
+				cin.ignore(256, '\n');
+					cin >> choice;
+			}
+			optionchecker();
+			if (menuback == 0) {
+				myhp = myhp - 15;
+			}
+			menuback = 0;
+		}
+	}
+    return 0;
+}
